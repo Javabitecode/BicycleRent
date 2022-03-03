@@ -2,20 +2,22 @@ package trokhimchuk.bicycle.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trokhimchuk.bicycle.domain.Bicycle;
-import trokhimchuk.bicycle.repo.BicycleRepo;
+import trokhimchuk.bicycle.repo.BicycleRepository;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("bicycle")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class BicycleController {
 
-    final BicycleRepo bicycleRepo;
+    final BicycleRepository bicycleRepo;
 
     @Autowired
-    public BicycleController(BicycleRepo bicycleRepo) {
+    public BicycleController(BicycleRepository bicycleRepo) {
         this.bicycleRepo = bicycleRepo;
     }
 

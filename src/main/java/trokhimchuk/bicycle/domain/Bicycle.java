@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table
 @ToString(of = {"id", "typeBicycle"})
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = {"id"}) //исправить
 public class Bicycle {
 
     @Id
@@ -16,6 +16,13 @@ public class Bicycle {
     private Long id;
 
     private String typeBicycle;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User renter;
+
+    public String getAuthorName(){
+        return renter != null ? renter.getUsername() : "<none>";
+    }
 
     public Long getId() {
         return id;
@@ -31,5 +38,13 @@ public class Bicycle {
 
     public void setTypeBicycle(String typeBicycle) {
         this.typeBicycle = typeBicycle;
+    }
+
+    public User getRenter() {
+        return renter;
+    }
+
+    public void setRenter(User renter) {
+        this.renter = renter;
     }
 }
