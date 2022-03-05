@@ -8,8 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table
-@ToString(of = {"id", "typeBicycle"})
-@EqualsAndHashCode(of = {"id"}) //исправить
 public class Bicycle {
 
     @Id
@@ -53,7 +51,34 @@ public class Bicycle {
         this.bicycleBrand = bicycleBrand;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Bicycle bicycle = (Bicycle) o;
+
+        if (id != null ? !id.equals(bicycle.id) : bicycle.id != null) return false;
+        if (bicycleType != null ? !bicycleType.equals(bicycle.bicycleType) : bicycle.bicycleType != null) return false;
+        return bicycleBrand != null ? bicycleBrand.equals(bicycle.bicycleBrand) : bicycle.bicycleBrand == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (bicycleType != null ? bicycleType.hashCode() : 0);
+        result = 31 * result + (bicycleBrand != null ? bicycleBrand.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Bicycle{" +
+                "id=" + id +
+                ", bicycleType='" + bicycleType + '\'' +
+                ", bicycleBrand='" + bicycleBrand + '\'' +
+                '}';
+    }
 }
 
 
