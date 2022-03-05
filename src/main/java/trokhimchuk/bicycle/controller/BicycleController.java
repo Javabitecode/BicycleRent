@@ -3,12 +3,10 @@ package trokhimchuk.bicycle.controller;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import trokhimchuk.bicycle.exeptions.NotFoundException;
+import trokhimchuk.bicycle.domain.Bicycle;
+import trokhimchuk.bicycle.repo.BicycleRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("bicycle")
@@ -52,4 +50,4 @@ public class BicycleController {
 
 }
 
-}
+

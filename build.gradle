@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-	imimplementation 'org.springframework.boot:spring-boot-starter-web'
+	imimplementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
