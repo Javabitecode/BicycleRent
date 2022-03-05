@@ -15,7 +15,8 @@ public class Bicycle {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String typeBicycle;
+    private String bicycleType;
+    private String bicycleBrand;
 
   /*       @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "user_id")*/
@@ -25,6 +26,9 @@ public class Bicycle {
             return renter != null ? renter.getUsername() : "<none>";
         }*/
 
+
+    /*           ___Getter and setter___             */
+
     public Long getId() {
         return id;
     }
@@ -33,21 +37,23 @@ public class Bicycle {
         this.id = id;
     }
 
-    public String getTypeBicycle() {
-        return typeBicycle;
+    public String getBicycleType() {
+        return bicycleType;
     }
 
-    public void setTypeBicycle(String typeBicycle) {
-        this.typeBicycle = typeBicycle;
+    public void setBicycleType(String bicycleType) {
+        this.bicycleType = bicycleType;
     }
 
-        /*public User getRenter() {
-            return renter;
-        }
+    public String getBicycleBrand() {
+        return bicycleBrand;
+    }
 
-        public void setRenter(User renter) {
-            this.renter = renter;
-        }*/
+    public void setBicycleBrand(String bicycleBrand) {
+        this.bicycleBrand = bicycleBrand;
+    }
+
+
 }
 
 
