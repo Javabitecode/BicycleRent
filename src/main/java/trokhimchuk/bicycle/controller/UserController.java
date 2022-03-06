@@ -4,12 +4,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trokhimchuk.bicycle.Entity.UserEntity;
-import trokhimchuk.bicycle.exception.NotEntityException;
 import trokhimchuk.bicycle.exception.UserNotFoundException;
 import trokhimchuk.bicycle.repo.UserRepository;
 import trokhimchuk.bicycle.service.UserService;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("user")
@@ -47,10 +44,19 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
+    public UserEntity update(@PathVariable("id") UserEntity userFromDB,
+                          @RequestBody UserEntity userEntity) {
+        BeanUtils.copyProperties(userEntity, userFromDB, "id"); //Исправить
+        return userRepository.save(userFromDB);
+    }
+
+
+
+/*    @PutMapping("/{id}")
     public UserEntity update(@PathVariable("id") Long id,
                              @RequestBody UserEntity user) {
-/*
+
         UserEntity userFromDB = userRepository.findById(id).get();
         userFromDB.setPassword(user.getPassword());
         userFromDB.setRoles(user.getRoles());
@@ -58,9 +64,7 @@ public class UserController {
         userFromDB.setBicycleCount(user.getBicycleCount());
         userFromDB.setActive(user.getActive());
         return userRepository.save(userFromDB);
-*/
-
-    }
+    }*/
 
 
 }

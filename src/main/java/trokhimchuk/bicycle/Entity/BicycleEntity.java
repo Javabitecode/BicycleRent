@@ -13,6 +13,7 @@ public class BicycleEntity {
     private String bicycleType;
     private String bicycleBrand;
 
+
   /*       @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "user_id")*/
     /*private User renter;*/
