@@ -1,11 +1,11 @@
-package trokhimchuk.bicycle.domain;
+package trokhimchuk.bicycle.Entity;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,7 +54,7 @@ public class User {
         this.bicycleCount = bicycleCount;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 
@@ -87,7 +87,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        UserEntity user = (UserEntity) o;
 
         if (bicycleCount != user.bicycleCount) return false;
         if (active != user.active) return false;

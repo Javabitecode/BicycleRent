@@ -3,7 +3,7 @@ package trokhimchuk.bicycle.controller;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import trokhimchuk.bicycle.domain.Bicycle;
+import trokhimchuk.bicycle.Entity.BicycleEntity;
 import trokhimchuk.bicycle.repo.BicycleRepository;
 
 @RestController
@@ -18,30 +18,30 @@ public class BicycleController {
     }
 
     @GetMapping
-    public Iterable<Bicycle> list() {
+    public Iterable<BicycleEntity> list() {
         return bicycleRepository.findAll();
     }
 
     @GetMapping("{id}")
-    public Bicycle getBicycle(@PathVariable("id") Bicycle bicycle) {
-        return bicycle;
+    public BicycleEntity getBicycle(@PathVariable("id") BicycleEntity bicycleEntity) {
+        return bicycleEntity;
     }
 
     @PostMapping
-    public Bicycle create(@RequestBody Bicycle bicycle) {
-        return bicycleRepository.save(bicycle);
+    public BicycleEntity create(@RequestBody BicycleEntity bicycleEntity) {
+        return bicycleRepository.save(bicycleEntity);
     }
 
     @PutMapping("{id}")
-    public Bicycle update(@PathVariable("id") Bicycle bicycleFromDB,
-                          @RequestBody Bicycle bicycle) {
-        BeanUtils.copyProperties(bicycle, bicycleFromDB, "id");
-        return bicycleRepository.save(bicycleFromDB);
+    public BicycleEntity update(@PathVariable("id") BicycleEntity bicycleEntityFromDB,
+                                @RequestBody BicycleEntity bicycleEntity) {
+        BeanUtils.copyProperties(bicycleEntity, bicycleEntityFromDB, "id");
+        return bicycleRepository.save(bicycleEntityFromDB);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Bicycle bicycle) {
-        bicycleRepository.delete(bicycle);
+    public void delete(@PathVariable("id") BicycleEntity bicycleEntity) {
+        bicycleRepository.delete(bicycleEntity);
 
     }
 

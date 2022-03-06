@@ -1,35 +1,36 @@
 package trokhimchuk.bicycle.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import trokhimchuk.bicycle.domain.Role;
-import trokhimchuk.bicycle.domain.User;
-import trokhimchuk.bicycle.repo.UserRepository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import trokhimchuk.bicycle.Entity.UserEntity;
+import trokhimchuk.bicycle.exception.UserAlreadyExistException;
+import trokhimchuk.bicycle.service.UserService;
 
-import java.util.Collections;
-
+@RestController
+@RequestMapping("registration")
 public class RegistrationController {
 
-    private final UserRepository userRepository;
-    public RegistrationController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserService userService;
 
-    @GetMapping("/registration")
-    public Iterable<User> registration(){
-        return userRepository.findAll(); //для теста исправить!!!!
+    @Autowired
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping
-    public User addUser(@RequestBody User user){
-        /*User userFromDB = userRepository.findByUsername(user.getUsername());
-        if (userFromDB!= null) {
-            return null; //исправить!!!!!!!!!
-        }*/
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.ADMIN));
-        return userRepository.save(user);
-
+    public ResponseEntity registration(@RequestBody UserEntity user) {
+        try {
+            userService.registration(user);
+            return ResponseEntity.ok("Пользователь успешно сохранен");
+        } catch (UserAlreadyExistException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Произошла ошибка");
+        }
     }
 }
+

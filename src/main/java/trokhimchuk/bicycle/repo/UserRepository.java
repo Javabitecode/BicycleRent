@@ -1,8 +1,8 @@
 package trokhimchuk.bicycle.repo;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
-import trokhimchuk.bicycle.domain.User;
+import trokhimchuk.bicycle.Entity.UserEntity;
 
-public interface UserRepository extends CrudRepository<User,Long> {
+public interface UserRepository extends CrudRepository<UserEntity,Long> {
+    UserEntity findByUsername(String username);
 }

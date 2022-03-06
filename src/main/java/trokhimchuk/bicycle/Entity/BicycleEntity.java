@@ -1,14 +1,11 @@
-package trokhimchuk.bicycle.domain;
+package trokhimchuk.bicycle.Entity;
 
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table
-public class Bicycle {
+public class BicycleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,11 +53,11 @@ public class Bicycle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Bicycle bicycle = (Bicycle) o;
+        BicycleEntity bicycleEntity = (BicycleEntity) o;
 
-        if (id != null ? !id.equals(bicycle.id) : bicycle.id != null) return false;
-        if (bicycleType != null ? !bicycleType.equals(bicycle.bicycleType) : bicycle.bicycleType != null) return false;
-        return bicycleBrand != null ? bicycleBrand.equals(bicycle.bicycleBrand) : bicycle.bicycleBrand == null;
+        if (id != null ? !id.equals(bicycleEntity.id) : bicycleEntity.id != null) return false;
+        if (bicycleType != null ? !bicycleType.equals(bicycleEntity.bicycleType) : bicycleEntity.bicycleType != null) return false;
+        return bicycleBrand != null ? bicycleBrand.equals(bicycleEntity.bicycleBrand) : bicycleEntity.bicycleBrand == null;
     }
 
     @Override
