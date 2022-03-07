@@ -1,6 +1,9 @@
 package trokhimchuk.bicycle.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import trokhimchuk.bicycle.Entity.Role;
 import trokhimchuk.bicycle.Entity.UserEntity;
@@ -12,10 +15,13 @@ import trokhimchuk.bicycle.repo.UserRepository;
 import java.util.Collections;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
+    private final UserRepository userRepository;
     @Autowired
-    private UserRepository userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public UserEntity registration(UserEntity user) throws UserAlreadyExistException {
         if (userRepository.findByUsername(user.getUsername()) != null) {
@@ -38,4 +44,10 @@ public class UserService {
         userRepository.deleteById(id);
         return id;
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+         return userRepository.findByUsername(username);
+        }
+
 }

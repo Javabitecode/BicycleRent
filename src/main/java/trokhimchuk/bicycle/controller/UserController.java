@@ -2,6 +2,7 @@ package trokhimchuk.bicycle.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trokhimchuk.bicycle.Entity.UserEntity;
 import trokhimchuk.bicycle.exception.UserNotFoundException;
@@ -9,6 +10,7 @@ import trokhimchuk.bicycle.repo.UserRepository;
 import trokhimchuk.bicycle.service.UserService;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("user")
 public class UserController {
     private final UserService userService;
