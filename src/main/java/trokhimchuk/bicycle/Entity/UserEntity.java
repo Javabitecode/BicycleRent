@@ -15,6 +15,9 @@ public class UserEntity {
     private int bicycleCount;
     private boolean active;
 
+    @OneToMany(mappedBy = "userEntity",fetch = FetchType.EAGER)
+    private Set<BicycleEntity> bicycleEntity;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
@@ -54,12 +57,20 @@ public class UserEntity {
         this.bicycleCount = bicycleCount;
     }
 
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Set<BicycleEntity> getBicycleEntity() {
+        return bicycleEntity;
+    }
+
+    public void setBicycleEntity(Set<BicycleEntity> bicycleEntity) {
+        this.bicycleEntity = bicycleEntity;
     }
 
     public Set<Role> getRoles() {
@@ -72,12 +83,13 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserEntity{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", bicycleCount=" + bicycleCount +
                 ", active=" + active +
+                ", bicycleEntity=" + bicycleEntity +
                 ", roles=" + roles +
                 '}';
     }
@@ -87,14 +99,16 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserEntity user = (UserEntity) o;
+        UserEntity that = (UserEntity) o;
 
-        if (bicycleCount != user.bicycleCount) return false;
-        if (active != user.active) return false;
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        return roles != null ? roles.equals(user.roles) : user.roles == null;
+        if (bicycleCount != that.bicycleCount) return false;
+        if (active != that.active) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (username != null ? !username.equals(that.username) : that.username != null) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (bicycleEntity != null ? !bicycleEntity.equals(that.bicycleEntity) : that.bicycleEntity != null)
+            return false;
+        return roles != null ? roles.equals(that.roles) : that.roles == null;
     }
 
     @Override
@@ -104,6 +118,7 @@ public class UserEntity {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + bicycleCount;
         result = 31 * result + (active ? 1 : 0);
+        result = 31 * result + (bicycleEntity != null ? bicycleEntity.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }

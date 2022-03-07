@@ -29,6 +29,7 @@ public class BicycleController {
 
     @PostMapping
     public BicycleEntity create(@RequestBody BicycleEntity bicycleEntity) {
+        bicycleEntity.setRented(false);
         return bicycleRepository.save(bicycleEntity);
     }
 
