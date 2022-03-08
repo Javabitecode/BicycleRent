@@ -50,13 +50,6 @@ public class UserService implements UserDetailsService {
         return id;
     }
 
-    public void clearRentedBicycles(Long idUser){
-        BicycleEntity bicycleFromDB = bicycleRepository.findByUserEntity(userRepository.findById(idUser).get());
-        bicycleFromDB.setRented(false);
-        bicycleFromDB.setUserEntity(null);
-
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = new UserEntity();

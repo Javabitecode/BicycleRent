@@ -40,7 +40,6 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {
         try {
-            userService.clearRentedBicycles(id);
             return ResponseEntity.ok(userService.delete(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Произошла ошибка");
