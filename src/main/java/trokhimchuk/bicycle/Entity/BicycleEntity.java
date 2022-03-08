@@ -69,7 +69,7 @@ public class BicycleEntity {
                 ", bicycleType='" + bicycleType + '\'' +
                 ", bicycleBrand='" + bicycleBrand + '\'' +
                 ", isRented=" + isRented +
-                ", userEntity=" + userEntity +
+
                 '}';
     }
 
@@ -80,21 +80,12 @@ public class BicycleEntity {
 
         BicycleEntity that = (BicycleEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (bicycleType != null ? !bicycleType.equals(that.bicycleType) : that.bicycleType != null) return false;
-        if (bicycleBrand != null ? !bicycleBrand.equals(that.bicycleBrand) : that.bicycleBrand != null) return false;
-        if (isRented != null ? !isRented.equals(that.isRented) : that.isRented != null) return false;
-        return userEntity != null ? userEntity.equals(that.userEntity) : that.userEntity == null;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (bicycleType != null ? bicycleType.hashCode() : 0);
-        result = 31 * result + (bicycleBrand != null ? bicycleBrand.hashCode() : 0);
-        result = 31 * result + (isRented != null ? isRented.hashCode() : 0);
-        result = 31 * result + (userEntity != null ? userEntity.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }
 

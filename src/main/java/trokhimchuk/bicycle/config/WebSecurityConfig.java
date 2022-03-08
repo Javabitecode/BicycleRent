@@ -17,16 +17,17 @@ import trokhimchuk.bicycle.service.UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+
     @Autowired
     public WebSecurityConfig(UserService userService) {
         this.userService = userService;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/registration", "/getBicycles").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -34,18 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().permitAll()
                 .and()
                 .logout().permitAll();
-
-
-        /* http
-                .authorizeRequests()
-                .antMatchers("/registration","/rent").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/bicycle/**").hasRole("USER")
-                .and()
-                .csrf().disable()
-                .formLogin().permitAll()
-                .and()
-                .logout().permitAll();*/
     }
 
     @Override

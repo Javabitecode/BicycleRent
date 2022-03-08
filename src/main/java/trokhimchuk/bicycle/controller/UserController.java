@@ -40,6 +40,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {
         try {
+            userService.clearRentedBicycles(id);
             return ResponseEntity.ok(userService.delete(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Произошла ошибка");
@@ -48,25 +49,8 @@ public class UserController {
 
     @PutMapping("{id}")
     public UserEntity update(@PathVariable("id") UserEntity userFromDB,
-                          @RequestBody UserEntity userEntity) {
+                             @RequestBody UserEntity userEntity) {
         BeanUtils.copyProperties(userEntity, userFromDB, "id"); //Исправить
         return userRepository.save(userFromDB);
     }
-
-
-
-/*    @PutMapping("/{id}")
-    public UserEntity update(@PathVariable("id") Long id,
-                             @RequestBody UserEntity user) {
-
-        UserEntity userFromDB = userRepository.findById(id).get();
-        userFromDB.setPassword(user.getPassword());
-        userFromDB.setRoles(user.getRoles());
-        userFromDB.setUsername(user.getUsername());
-        userFromDB.setBicycleCount(user.getBicycleCount());
-        userFromDB.setActive(user.getActive());
-        return userRepository.save(userFromDB);
-    }*/
-
-
 }

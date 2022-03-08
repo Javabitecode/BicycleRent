@@ -5,22 +5,27 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import trokhimchuk.bicycle.Entity.BicycleEntity;
 import trokhimchuk.bicycle.Entity.Role;
 import trokhimchuk.bicycle.Entity.UserEntity;
 import trokhimchuk.bicycle.exception.UserAlreadyExistException;
 import trokhimchuk.bicycle.exception.UserNotFoundException;
 import trokhimchuk.bicycle.model.User;
+import trokhimchuk.bicycle.repo.BicycleRepository;
 import trokhimchuk.bicycle.repo.UserRepository;
 
 import java.util.Collections;
 
+
 @Service
 public class UserService implements UserDetailsService {
-
+    final BicycleRepository bicycleRepository;
     private final UserRepository userRepository;
+
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BicycleRepository bicycleRepository) {
         this.userRepository = userRepository;
+        this.bicycleRepository = bicycleRepository;
     }
 
     public UserEntity registration(UserEntity user) throws UserAlreadyExistException {
@@ -45,9 +50,15 @@ public class UserService implements UserDetailsService {
         return id;
     }
 
+    public void clearRentedBicycles(Long idUser){
+        BicycleEntity bicycleFromDB = bicycleRepository.findByUserEntity(userRepository.findById(idUser).get());
+        bicycleFromDB.setUserEntity(null);
+
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         return userRepository.findByUsername(username);
-        }
-
+        UserEntity userEntity = new UserEntity();
+        return userRepository.findByUsername(username);
+    }
 }

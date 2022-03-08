@@ -20,13 +20,16 @@ public class UserEntity implements UserDetails {
     private int bicycleCount;
     private boolean active;
 
-    @OneToMany(mappedBy = "userEntity",fetch = FetchType.EAGER)
+    @OneToMany
     private Set<BicycleEntity> bicycleEntity;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    public UserEntity() {
+    }
 
     /*           ___Getter and setter___             */
 
@@ -121,7 +124,6 @@ public class UserEntity implements UserDetails {
                 ", password='" + password + '\'' +
                 ", bicycleCount=" + bicycleCount +
                 ", active=" + active +
-                ", bicycleEntity=" + bicycleEntity +
                 ", roles=" + roles +
                 '}';
     }
@@ -134,13 +136,9 @@ public class UserEntity implements UserDetails {
         UserEntity that = (UserEntity) o;
 
         if (bicycleCount != that.bicycleCount) return false;
-        if (active != that.active) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (bicycleEntity != null ? !bicycleEntity.equals(that.bicycleEntity) : that.bicycleEntity != null)
-            return false;
-        return roles != null ? roles.equals(that.roles) : that.roles == null;
+        return password != null ? password.equals(that.password) : that.password == null;
     }
 
     @Override
@@ -149,9 +147,6 @@ public class UserEntity implements UserDetails {
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + bicycleCount;
-        result = 31 * result + (active ? 1 : 0);
-        result = 31 * result + (bicycleEntity != null ? bicycleEntity.hashCode() : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }
 }

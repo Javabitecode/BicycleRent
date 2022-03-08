@@ -2,39 +2,33 @@ package trokhimchuk.bicycle.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import trokhimchuk.bicycle.Entity.Role;
-import trokhimchuk.bicycle.Entity.UserEntity;
-import trokhimchuk.bicycle.exception.UserAlreadyExistException;
-import trokhimchuk.bicycle.exception.UserNotFoundException;
-import trokhimchuk.bicycle.model.User;
+import trokhimchuk.bicycle.Entity.BicycleEntity;
+import trokhimchuk.bicycle.model.Bicycle;
+import trokhimchuk.bicycle.repo.BicycleRepository;
 import trokhimchuk.bicycle.repo.UserRepository;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BicycleService {
-    @Autowired
-    private UserRepository userRepository;
+    private final BicycleRepository bicycleRepository;
+    final UserRepository userRepository;
 
-    public UserEntity registration(UserEntity user) throws UserAlreadyExistException {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            throw new UserAlreadyExistException("Пользователь с таким именем существует");
+    public BicycleService(BicycleRepository bicycleRepository, UserRepository userRepository) {
+        this.bicycleRepository = bicycleRepository;
+        this.userRepository = userRepository;
+    }
+
+    public List<Bicycle> getBicycles(Iterable<BicycleEntity> bicycleEntity) {
+        List<Bicycle> bicycles = new ArrayList<>();
+
+        for (BicycleEntity bicycleE : bicycleEntity) {
+            bicycles.add(Bicycle.toModel(bicycleE));
         }
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        return userRepository.save(user);
+        return bicycles;
     }
 
-    public User getOne(Long id) throws UserNotFoundException {
-        UserEntity user = userRepository.findById(id).get();
-        if (user == null) {
-            throw new UserNotFoundException("Пользователь не найден");
-        }
-        return User.toModel(user);
-    }
 
-    public Long delete(Long id) {
-        userRepository.deleteById(id);
-        return id;
-    }
 }
+
