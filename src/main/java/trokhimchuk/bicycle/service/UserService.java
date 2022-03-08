@@ -19,7 +19,7 @@ import java.util.Collections;
 
 @Service
 public class UserService implements UserDetailsService {
-    final BicycleRepository bicycleRepository;
+    private final BicycleRepository bicycleRepository;
     private final UserRepository userRepository;
 
     @Autowired
@@ -52,6 +52,7 @@ public class UserService implements UserDetailsService {
 
     public void clearRentedBicycles(Long idUser){
         BicycleEntity bicycleFromDB = bicycleRepository.findByUserEntity(userRepository.findById(idUser).get());
+        bicycleFromDB.setRented(false);
         bicycleFromDB.setUserEntity(null);
 
     }

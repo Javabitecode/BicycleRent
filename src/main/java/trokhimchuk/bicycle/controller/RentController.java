@@ -19,9 +19,9 @@ import java.util.List;
 @RestController
 
 public class RentController {
-    final BicycleService bicycleService;
-    final UserRepository userRepository;
-    final BicycleRepository bicycleRepository;
+    private final BicycleService bicycleService;
+    private final UserRepository userRepository;
+    private final BicycleRepository bicycleRepository;
 
     @Autowired
     public RentController(BicycleRepository bicycleRepository, UserRepository userRepository, BicycleService bicycleService) {
@@ -31,14 +31,12 @@ public class RentController {
     }
 
 
-
-
     @GetMapping("getBicycles")
     public List<Bicycle> list() {
         return bicycleService.getBicycles(bicycleRepository.findAll());
     }
 
-    @PutMapping("getBicycle")
+    @PutMapping("rentBicycle")
     public ResponseEntity getBicycle(@RequestBody BicycleEntity bicycleEntity,
                                      @AuthenticationPrincipal UserEntity userEntity) {
 
@@ -53,11 +51,7 @@ public class RentController {
         bicycleFromDB.setRented(true);
         bicycleFromDB.setUserEntity(userEntity);
 
-        System.out.println(userFromDB.getBicycleCount() + "это из бд");
-        System.out.println(userEntity.getBicycleCount() + "before это не из бд");
         userFromDB.setBicycleCount(userFromDB.getBicycleCount() + 1);
-        System.out.println(userFromDB.getBicycleCount() + "после это из бд");
-        System.out.println(userEntity.getBicycleCount() + "last это не из бд");
 
         userRepository.save(userFromDB);
         bicycleRepository.save(bicycleFromDB);
@@ -67,21 +61,18 @@ public class RentController {
     @PutMapping("returnBicycle")
     public ResponseEntity returnBicycle(@RequestBody BicycleEntity bicycleEntity,
                                         @AuthenticationPrincipal UserEntity userEntity) {
+
         BicycleEntity bicycleFromDB = bicycleRepository.findById(bicycleEntity.getId()).get();
         UserEntity userFromDB = userRepository.findById(userEntity.getId()).get();
         if (bicycleFromDB == null && userEntity == null) {
             return ResponseEntity.badRequest().body("Error: (1.Log in; 2.The bike does not exist;)");
         }
 
-        if (bicycleFromDB.getUserEntity().getId()!= userFromDB.getId() && !bicycleFromDB.getRented()){
+        if (bicycleFromDB.getUserEntity().getId() != userFromDB.getId() && !bicycleFromDB.getRented()) {
             return ResponseEntity.badRequest().body("Error: ");
         }
 
-        System.out.println(userFromDB.getBicycleCount() + "это из бд");
-        System.out.println(userEntity.getBicycleCount() + "before это не из бд");
         userFromDB.setBicycleCount(userFromDB.getBicycleCount() - 1);
-        System.out.println(userFromDB.getBicycleCount() + "после это из бд");
-        System.out.println(userEntity.getBicycleCount() + "last это не из бд");
 
         bicycleFromDB.setRented(false);
         bicycleFromDB.setUserEntity(null);

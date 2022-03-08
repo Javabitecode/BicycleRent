@@ -10,7 +10,7 @@ import trokhimchuk.bicycle.repo.BicycleRepository;
 @RequestMapping("bicycle")
 public class BicycleController {
 
-    final BicycleRepository bicycleRepository;
+    private final BicycleRepository bicycleRepository;
 
     @Autowired
     public BicycleController(BicycleRepository bicycleRepo) {
