@@ -43,8 +43,10 @@ public class RentService {
         if (bicycleFromDB == null && userEntity == null) {
             return ResponseEntity.badRequest().body("Error: (1.Log in; 2.The bike does not exist;)");
         }
+        System.out.println(bicycleFromDB.getUserEntity().getId()+ "это юзер из байсекла");
+        System.out.println(userFromDB.getId() + "это юзер и юзера");
 
-        if (bicycleFromDB.getUserEntity().getId() != userFromDB.getId() && !bicycleFromDB.getRented()) {
+        if (!bicycleFromDB.getUserEntity().getId().equals(userFromDB.getId())) {
             return ResponseEntity.badRequest().body("Error: ");
         }
 

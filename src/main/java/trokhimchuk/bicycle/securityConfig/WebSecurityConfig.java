@@ -1,4 +1,4 @@
-package trokhimchuk.bicycle.config;
+package trokhimchuk.bicycle.securityConfig;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
