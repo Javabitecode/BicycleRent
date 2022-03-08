@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
 
     public UserEntity registration(UserEntity user) throws UserAlreadyExistException {
         if (userRepository.findByUsername(user.getUsername()) != null) {
-            throw new UserAlreadyExistException("Пользователь с таким именем существует");
+            throw new UserAlreadyExistException("User with this name exists");
         }
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER)); // "ADMIN"
@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
     public User getOne(Long id) throws UserNotFoundException {
         UserEntity user = userRepository.findById(id).get();
         if (user == null) {
-            throw new UserNotFoundException("Пользователь не найден");
+            throw new UserNotFoundException("User not found");
         }
         return User.toModel(user);
     }
