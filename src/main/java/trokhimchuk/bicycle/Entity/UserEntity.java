@@ -2,7 +2,6 @@ package trokhimchuk.bicycle.Entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -30,8 +29,6 @@ public class UserEntity implements UserDetails {
 
     public UserEntity() {
     }
-
-    /*           ___Getter and setter___             */
 
     public Long getId() {
         return id;
@@ -73,7 +70,6 @@ public class UserEntity implements UserDetails {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
 
     public String getPassword() {

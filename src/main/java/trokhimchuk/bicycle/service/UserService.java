@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
             throw new UserAlreadyExistException("Пользователь с таким именем существует");
         }
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(Collections.singleton(Role.USER)); // "ADMIN"
         return userRepository.save(user);
     }
 

@@ -50,7 +50,7 @@ public class UserController {
     @PutMapping("{id}")
     public UserEntity update(@PathVariable("id") UserEntity userFromDB,
                              @RequestBody UserEntity userEntity) {
-        BeanUtils.copyProperties(userEntity, userFromDB, "id"); //Исправить
+        BeanUtils.copyProperties(userEntity, userFromDB, "id");
         return userRepository.save(userFromDB);
     }
 }

@@ -19,9 +19,6 @@ public class BicycleEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-
-    /*           ___Getter and setter___             */
-
     public Long getId() {
         return id;
     }
