@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class BicycleService {
     private final BicycleRepository bicycleRepository;
-    final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public BicycleService(BicycleRepository bicycleRepository, UserRepository userRepository) {
         this.bicycleRepository = bicycleRepository;

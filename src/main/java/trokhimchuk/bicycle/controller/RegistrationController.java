@@ -25,11 +25,11 @@ public class RegistrationController {
     public ResponseEntity registration(@RequestBody UserEntity user) {
         try {
             userService.registration(user);
-            return ResponseEntity.ok("Пользователь успешно сохранен");
+            return ResponseEntity.ok("User saved successfully");
         } catch (UserAlreadyExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            return ResponseEntity.badRequest().body("Error");
         }
     }
 }
