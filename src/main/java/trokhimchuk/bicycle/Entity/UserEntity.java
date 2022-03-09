@@ -1,5 +1,6 @@
 package trokhimchuk.bicycle.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,7 +20,8 @@ public class UserEntity implements UserDetails {
     private int bicycleCount;
     private boolean active;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy="userEntity", fetch=FetchType.EAGER)
     private Set<BicycleEntity> bicycleEntity;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
