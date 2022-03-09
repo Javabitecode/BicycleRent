@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
             throw new UserAlreadyExistException("User with this name exists");
         }
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER)); // "ADMIN"
+        user.setRoles(Collections.singleton(Role.ADMIN)); // "ADMIN"
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

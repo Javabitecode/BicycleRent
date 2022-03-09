@@ -15,7 +15,7 @@ public class BicycleEntity {
     private Boolean isRented;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
