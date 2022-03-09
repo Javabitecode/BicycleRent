@@ -29,7 +29,7 @@ public class RegistrationController {
         } catch (UserAlreadyExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error ");
+            return ResponseEntity.badRequest().body("Error");
         }
     }
 }
