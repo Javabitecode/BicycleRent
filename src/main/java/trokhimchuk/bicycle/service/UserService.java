@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
     public User getOne(Long id) throws UserNotFoundException {
         UserEntity user = userRepository.findById(id).get();
         if (user == null) {
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException("User not found.");
         }
         return User.toModel(user);
     }
