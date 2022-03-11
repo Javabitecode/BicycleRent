@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import trokhimchuk.bicycle.Entity.BicycleEntity;
 import trokhimchuk.bicycle.Entity.UserEntity;
-import trokhimchuk.bicycle.exception.BicycleDoesNotBelongUser;
-import trokhimchuk.bicycle.exception.UserNotFoundException;
 import trokhimchuk.bicycle.model.Bicycle;
 import trokhimchuk.bicycle.repo.BicycleRepository;
 import trokhimchuk.bicycle.repo.UserRepository;
@@ -22,17 +20,23 @@ import java.util.List;
 @RestController
 
 public class RentController {
+    private final UserRepository userRepository;
     private final BicycleService bicycleService;
     private final BicycleRepository bicycleRepository;
     private final RentService rentService;
 
     @Autowired
-    public RentController(BicycleRepository bicycleRepository, UserRepository userRepository, BicycleService bicycleService, RentService rentService) {
+    public RentController(BicycleRepository bicycleRepository, BicycleService bicycleService, RentService rentService, UserRepository userRepository) {
         this.bicycleRepository = bicycleRepository;
         this.bicycleService = bicycleService;
         this.rentService = rentService;
+        this.userRepository = userRepository;
     }
 
+    @GetMapping("getYourBicycles")
+    public List<BicycleEntity> getYourBicycle(@AuthenticationPrincipal UserEntity userEntity) {
+        return bicycleRepository.findAllByUserEntity_Id(userEntity.getId());
+    }
 
     @GetMapping("getBicycles")
     public List<Bicycle> list() {
