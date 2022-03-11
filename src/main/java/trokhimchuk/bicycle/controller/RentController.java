@@ -55,7 +55,7 @@ public class RentController {
         try {
             return rentService.returnBicycle(bicycleEntity, userEntity);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body("Error ");
         }
     }
 }
