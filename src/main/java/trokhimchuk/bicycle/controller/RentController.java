@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import trokhimchuk.bicycle.Entity.BicycleEntity;
 import trokhimchuk.bicycle.Entity.UserEntity;
+import trokhimchuk.bicycle.exception.BicycleDoesNotBelongUser;
+import trokhimchuk.bicycle.exception.UserNotFoundException;
 import trokhimchuk.bicycle.model.Bicycle;
 import trokhimchuk.bicycle.repo.BicycleRepository;
 import trokhimchuk.bicycle.repo.UserRepository;
@@ -40,13 +42,17 @@ public class RentController {
     @PutMapping("rentBicycle")
     public ResponseEntity getBicycle(@RequestBody BicycleEntity bicycleEntity,
                                      @AuthenticationPrincipal UserEntity userEntity) {
-    return rentService.getBicycle(bicycleEntity, userEntity);
+        return rentService.getBicycle(bicycleEntity, userEntity);
     }
 
     @PutMapping("returnBicycle")
     public ResponseEntity returnBicycle(@RequestBody BicycleEntity bicycleEntity,
                                         @AuthenticationPrincipal UserEntity userEntity) {
-        return rentService.returnBicycle(bicycleEntity, userEntity);
+        try {
+            return rentService.returnBicycle(bicycleEntity, userEntity);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error");
+        }
     }
 }
 
