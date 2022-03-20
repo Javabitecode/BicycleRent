@@ -7,6 +7,8 @@ import trokhimchuk.bicycle.Entity.UserEntity;
 import trokhimchuk.bicycle.repo.BicycleRepository;
 import trokhimchuk.bicycle.repo.UserRepository;
 
+import java.security.Principal;
+
 @Service
 public class RentService {
     private final BicycleRepository bicycleRepository;
@@ -17,10 +19,10 @@ public class RentService {
         this.bicycleRepository = bicycleRepository;
     }
 
-    public ResponseEntity getBicycle(BicycleEntity bicycleEntity, UserEntity userEntity) {
+    public ResponseEntity getBicycle(BicycleEntity bicycleEntity, Principal principal) {
 
         BicycleEntity bicycleFromDB = bicycleRepository.findById(bicycleEntity.getId()).get();
-        UserEntity userFromDB = userRepository.findById(userEntity.getId()).get();
+        UserEntity userFromDB = userRepository.findByUsername(principal.getName());
         if (bicycleFromDB.getRented() == true) {
             return ResponseEntity.badRequest().body("The bike is busy");
         }
@@ -28,7 +30,7 @@ public class RentService {
             return ResponseEntity.badRequest().body("Maximum number of bicycles");
         }
         bicycleFromDB.setRented(true);
-        bicycleFromDB.setUserEntity(userEntity);
+        bicycleFromDB.setUserEntity(userFromDB);
 
         userFromDB.setBicycleCount(userFromDB.getBicycleCount() + 1);
 

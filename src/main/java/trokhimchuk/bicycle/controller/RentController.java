@@ -1,5 +1,6 @@
 package trokhimchuk.bicycle.controller;
 
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import trokhimchuk.bicycle.repo.UserRepository;
 import trokhimchuk.bicycle.service.BicycleService;
 import trokhimchuk.bicycle.service.RentService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -45,8 +47,8 @@ public class RentController {
 
     @PutMapping("rentBicycle")
     public ResponseEntity getBicycle(@RequestBody BicycleEntity bicycleEntity,
-                                     @AuthenticationPrincipal UserEntity userEntity) {
-        return rentService.getBicycle(bicycleEntity, userEntity);
+                                     Principal principal) {
+        return rentService.getBicycle(bicycleEntity, principal);
     }
 
     @PutMapping("returnBicycle")

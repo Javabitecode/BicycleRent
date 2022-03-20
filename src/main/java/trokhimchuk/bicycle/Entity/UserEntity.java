@@ -1,16 +1,18 @@
 package trokhimchuk.bicycle.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
+import static javax.persistence.FetchType.EAGER;
+
 @Entity
-@Table(name = "usr")
-public class UserEntity implements UserDetails {
+@Table(name = "users")
+public class UserEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,12 +26,40 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy="userEntity", fetch=FetchType.EAGER)
     private Set<BicycleEntity> bicycleEntity;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
-    public UserEntity() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserEntity that = (UserEntity) o;
+
+        if (bicycleCount != that.bicycleCount) return false;
+        if (active != that.active) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (username != null ? !username.equals(that.username) : that.username != null) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (bicycleEntity != null ? !bicycleEntity.equals(that.bicycleEntity) : that.bicycleEntity != null)
+            return false;
+        return roles != null ? roles.equals(that.roles) : that.roles == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + bicycleCount;
+        result = 31 * result + (active ? 1 : 0);
+        result = 31 * result + (bicycleEntity != null ? bicycleEntity.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        return result;
     }
 
     public Long getId() {
@@ -44,35 +74,9 @@ public class UserEntity implements UserDetails {
         return username;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive();
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
 
     public String getPassword() {
         return password;
@@ -106,45 +110,11 @@ public class UserEntity implements UserDetails {
         this.bicycleEntity = bicycleEntity;
     }
 
-    public Set<Role> getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", bicycleCount=" + bicycleCount +
-                ", active=" + active +
-                ", roles=" + roles +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserEntity that = (UserEntity) o;
-
-        if (bicycleCount != that.bicycleCount) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        return password != null ? password.equals(that.password) : that.password == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + bicycleCount;
-        return result;
     }
 }
